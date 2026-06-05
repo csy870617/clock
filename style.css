@@ -1,0 +1,117 @@
+:root {
+  --bg: #f4f5f7;
+  --fg: #1b1c1e;
+  --muted: #6b7280;
+  --btn-bg: rgba(0, 0, 0, 0.04);
+  --btn-bg-hover: rgba(0, 0, 0, 0.09);
+  --accent: #2563eb;
+}
+
+:root[data-theme="dark"] {
+  --bg: #0e0f12;
+  --fg: #f5f6f8;
+  --muted: #9aa0a6;
+  --btn-bg: rgba(255, 255, 255, 0.07);
+  --btn-bg-hover: rgba(255, 255, 255, 0.14);
+  --accent: #60a5fa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    "Noto Sans KR", sans-serif;
+  transition: background 0.35s ease, color 0.35s ease;
+  overflow: hidden;
+}
+
+.clock-wrap {
+  text-align: center;
+  user-select: none;
+  padding: 1rem;
+}
+
+.clock {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.time {
+  font-size: clamp(3rem, 18vw, 16rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.meridiem {
+  font-size: clamp(1rem, 3vw, 2.5rem);
+  font-weight: 500;
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+.date {
+  margin: 1.2rem 0 0;
+  font-size: clamp(0.9rem, 3vw, 1.6rem);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.controls {
+  position: fixed;
+  top: 1.2rem;
+  right: 1.2rem;
+  display: flex;
+  gap: 0.6rem;
+  z-index: 10;
+}
+
+.ctrl-btn {
+  width: 2.8rem;
+  height: 2.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: var(--btn-bg);
+  color: var(--fg);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.ctrl-btn:hover {
+  background: var(--btn-bg-hover);
+}
+
+.ctrl-btn:active {
+  transform: scale(0.92);
+}
+
+.ctrl-btn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.icon {
+  line-height: 1;
+  pointer-events: none;
+}

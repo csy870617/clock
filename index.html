@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>디지털 시계</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="clock-wrap">
+    <div class="clock" id="clock" aria-live="polite">
+      <span class="time" id="time">00:00:00</span>
+      <span class="meridiem" id="meridiem"></span>
+    </div>
+    <p class="date" id="date"></p>
+  </main>
+
+  <div class="controls">
+    <button class="ctrl-btn" id="themeBtn" type="button" title="테마 전환" aria-label="테마 전환">
+      <span class="icon" id="themeIcon">🌙</span>
+    </button>
+    <button class="ctrl-btn" id="fullscreenBtn" type="button" title="전체화면" aria-label="전체화면">
+      <span class="icon" id="fullscreenIcon">⛶</span>
+    </button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
