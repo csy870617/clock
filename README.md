@@ -31,3 +31,20 @@ python3 -m http.server
 | `index.html` | 페이지 구조 |
 | `style.css` | 스타일 및 라이트/다크 테마 |
 | `script.js` | 시계 동작, 테마 전환, 전체화면 로직 |
+| `.github/workflows/deploy.yml` | GitHub Pages 자동 배포 워크플로 |
+
+## 배포 (GitHub Pages)
+
+`main` 브랜치에 푸시하면 워크플로가 자동으로 사이트를 배포합니다.
+처음 한 번만 아래 설정이 필요합니다.
+
+1. GitHub 저장소 → **Settings → Pages** 이동
+2. **Source** 를 **"GitHub Actions"** 로 선택
+3. 이후 `main` 에 푸시될 때마다 자동 배포 (Actions 탭에서 수동 실행도 가능)
+
+배포가 끝나면 아래 주소로 접속할 수 있습니다.
+
+```
+https://csy870617.github.io/clock/
+```
+
