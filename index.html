@@ -4,6 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>디지털 시계</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono:wght@500&family=Nanum+Pen+Script&display=swap"
+    rel="stylesheet"
+  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -16,6 +22,12 @@
   </main>
 
   <div class="controls">
+    <button class="ctrl-btn" id="formatBtn" type="button" title="12/24시간제 전환" aria-label="12/24시간제 전환">
+      <span class="icon label" id="formatIcon">24</span>
+    </button>
+    <button class="ctrl-btn" id="fontBtn" type="button" title="폰트 변경" aria-label="폰트 변경">
+      <span class="icon" id="fontIcon">🅰</span>
+    </button>
     <button class="ctrl-btn" id="themeBtn" type="button" title="테마 전환" aria-label="테마 전환">
       <span class="icon" id="themeIcon">🌙</span>
     </button>
@@ -23,6 +35,8 @@
       <span class="icon" id="fullscreenIcon">⛶</span>
     </button>
   </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="script.js"></script>
 </body>

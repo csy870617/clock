@@ -5,6 +5,8 @@
   --btn-bg: rgba(0, 0, 0, 0.04);
   --btn-bg-hover: rgba(0, 0, 0, 0.09);
   --accent: #2563eb;
+  --clock-font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    "Noto Sans KR", sans-serif;
 }
 
 :root[data-theme="dark"] {
@@ -53,6 +55,7 @@ body {
 }
 
 .time {
+  font-family: var(--clock-font);
   font-size: clamp(3rem, 18vw, 16rem);
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -114,4 +117,32 @@ body {
 .icon {
   line-height: 1;
   pointer-events: none;
+}
+
+.icon.label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.toast {
+  position: fixed;
+  bottom: 1.6rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  background: var(--btn-bg-hover);
+  color: var(--fg);
+  font-size: 0.95rem;
+  font-weight: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  z-index: 20;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
