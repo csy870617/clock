@@ -7,6 +7,7 @@
   --accent: #2563eb;
   --clock-font: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
     "Noto Sans KR", sans-serif;
+  --clock-scale: 1;
 }
 
 :root[data-theme="dark"] {
@@ -56,7 +57,7 @@ body {
 
 .time {
   font-family: var(--clock-font);
-  font-size: clamp(3rem, 18vw, 16rem);
+  font-size: calc(clamp(3rem, 18vw, 16rem) * var(--clock-scale));
   font-weight: 600;
   letter-spacing: 0.02em;
   font-variant-numeric: tabular-nums;
@@ -64,10 +65,15 @@ body {
 }
 
 .meridiem {
-  font-size: clamp(1rem, 3vw, 2.5rem);
+  font-size: calc(clamp(2rem, 6vw, 5rem) * var(--clock-scale));
   font-weight: 500;
   color: var(--accent);
   text-transform: uppercase;
+}
+
+/* 표시/숨김 토글용 */
+.hidden {
+  display: none !important;
 }
 
 .date {
@@ -112,6 +118,11 @@ body {
 .ctrl-btn:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+/* 비활성(꺼짐) 상태 버튼 — 날짜 숨김 등 */
+.ctrl-btn.off {
+  opacity: 0.4;
 }
 
 .icon {

@@ -7,6 +7,10 @@
   const formatBtn = document.getElementById("formatBtn");
   const formatIcon = document.getElementById("formatIcon");
   const fontBtn = document.getElementById("fontBtn");
+  const sizeDownBtn = document.getElementById("sizeDownBtn");
+  const sizeUpBtn = document.getElementById("sizeUpBtn");
+  const dateBtn = document.getElementById("dateBtn");
+  const dateIcon = document.getElementById("dateIcon");
   const themeBtn = document.getElementById("themeBtn");
   const themeIcon = document.getElementById("themeIcon");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
@@ -39,9 +43,9 @@
     if (use12Hour) {
       hours = hours % 12;
       if (hours === 0) hours = 12;
+      // 12시간제에서만 오전/오후 표시 (24시간제에서는 숨김)
+      meridiemEl.textContent = isPM ? "PM" : "AM";
     }
-    // 오전/오후 보조 표시 (12·24시간제 공통)
-    meridiemEl.textContent = isPM ? "PM" : "AM";
 
     timeEl.textContent =
       pad(hours) + ":" + pad(now.getMinutes()) + ":" + pad(now.getSeconds());
@@ -61,6 +65,8 @@
   function applyFormat(twelve) {
     use12Hour = twelve;
     formatIcon.textContent = twelve ? "12" : "24";
+    // 24시간제에서는 AM/PM 영역을 숨김
+    meridiemEl.classList.toggle("hidden", !twelve);
     try {
       localStorage.setItem("clock-12hour", twelve ? "1" : "0");
     } catch (e) {
@@ -122,6 +128,71 @@
 
   fontBtn.addEventListener("click", function () {
     applyFont(fontIndex + 1, true);
+  });
+
+  // ---- 글자 크기 ----
+  const SCALE_MIN = 0.4;
+  const SCALE_MAX = 2.5;
+  const SCALE_STEP = 0.1;
+  let scale = 1;
+
+  function applyScale(value, announce) {
+    // 범위 제한 후 소수점 둘째 자리에서 반올림
+    scale = Math.min(SCALE_MAX, Math.max(SCALE_MIN, Math.round(value * 100) / 100));
+    root.style.setProperty("--clock-scale", String(scale));
+    try {
+      localStorage.setItem("clock-scale", String(scale));
+    } catch (e) {
+      /* 무시 */
+    }
+    if (announce) showToast("크기: " + Math.round(scale * 100) + "%");
+  }
+
+  function initScale() {
+    let saved = null;
+    try {
+      saved = localStorage.getItem("clock-scale");
+    } catch (e) {
+      /* 무시 */
+    }
+    const v = parseFloat(saved);
+    applyScale(isNaN(v) ? 1 : v, false);
+  }
+
+  sizeUpBtn.addEventListener("click", function () {
+    applyScale(scale + SCALE_STEP, true);
+  });
+  sizeDownBtn.addEventListener("click", function () {
+    applyScale(scale - SCALE_STEP, true);
+  });
+
+  // ---- 날짜 표시/숨김 ----
+  let showDate = true;
+
+  function applyDate(visible, announce) {
+    showDate = visible;
+    dateEl.classList.toggle("hidden", !visible);
+    dateBtn.classList.toggle("off", !visible);
+    try {
+      localStorage.setItem("clock-date", visible ? "1" : "0");
+    } catch (e) {
+      /* 무시 */
+    }
+    if (announce) showToast(visible ? "날짜 표시" : "날짜 숨김");
+  }
+
+  function initDate() {
+    let saved = null;
+    try {
+      saved = localStorage.getItem("clock-date");
+    } catch (e) {
+      /* 무시 */
+    }
+    applyDate(saved !== "0", false);
+  }
+
+  dateBtn.addEventListener("click", function () {
+    applyDate(!showDate, true);
   });
 
   // ---- 테마 ----
@@ -189,6 +260,8 @@
   // ---- 시작 ----
   initTheme();
   initFont();
+  initScale();
+  initDate();
   initFormat();
   updateClock();
   setInterval(updateClock, 1000);
