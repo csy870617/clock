@@ -78,7 +78,7 @@ body {
 
 .date {
   margin: 1.2rem 0 0;
-  font-size: clamp(0.9rem, 3vw, 1.6rem);
+  font-size: calc(clamp(0.9rem, 3vw, 1.6rem) * var(--clock-scale));
   font-weight: 400;
   color: var(--muted);
 }
