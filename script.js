@@ -15,6 +15,7 @@
   const themeIcon = document.getElementById("themeIcon");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
   const fullscreenIcon = document.getElementById("fullscreenIcon");
+  const controlsEl = document.querySelector(".controls");
   const toastEl = document.getElementById("toast");
 
   const root = document.documentElement;
@@ -242,13 +243,16 @@
     }
   }
 
-  function updateFullscreenIcon() {
-    fullscreenIcon.textContent = isFullscreen() ? "🗗" : "⛶";
+  function onFullscreenChange() {
+    const fs = isFullscreen();
+    fullscreenIcon.textContent = fs ? "🗗" : "⛶";
+    // 전체화면일 때는 우측 상단 컨트롤을 숨김 (종료는 ESC)
+    controlsEl.classList.toggle("hidden", !!fs);
   }
 
   fullscreenBtn.addEventListener("click", toggleFullscreen);
-  document.addEventListener("fullscreenchange", updateFullscreenIcon);
-  document.addEventListener("webkitfullscreenchange", updateFullscreenIcon);
+  document.addEventListener("fullscreenchange", onFullscreenChange);
+  document.addEventListener("webkitfullscreenchange", onFullscreenChange);
 
   // F 키로 전체화면 토글
   document.addEventListener("keydown", function (e) {
