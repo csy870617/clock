@@ -243,11 +243,50 @@
     }
   }
 
+  // ---- 전체화면에서 마우스 포인터 자동 숨김 ----
+  const CURSOR_HIDE_DELAY = 10000; // 10초
+  let cursorHideTimer = null;
+
+  function showCursor() {
+    root.classList.remove("cursor-hidden");
+  }
+
+  function hideCursor() {
+    root.classList.add("cursor-hidden");
+  }
+
+  function scheduleCursorHide() {
+    clearTimeout(cursorHideTimer);
+    cursorHideTimer = setTimeout(hideCursor, CURSOR_HIDE_DELAY);
+  }
+
+  function onMouseMove() {
+    showCursor();
+    scheduleCursorHide();
+  }
+
+  function startCursorAutoHide() {
+    document.addEventListener("mousemove", onMouseMove);
+    scheduleCursorHide();
+  }
+
+  function stopCursorAutoHide() {
+    document.removeEventListener("mousemove", onMouseMove);
+    clearTimeout(cursorHideTimer);
+    showCursor();
+  }
+
   function onFullscreenChange() {
     const fs = isFullscreen();
     fullscreenIcon.textContent = fs ? "🗗" : "⛶";
     // 전체화면일 때는 우측 상단 컨트롤을 숨김 (종료는 ESC)
     controlsEl.classList.toggle("hidden", !!fs);
+    // 전체화면일 때만 마우스 포인터 자동 숨김 활성화
+    if (fs) {
+      startCursorAutoHide();
+    } else {
+      stopCursorAutoHide();
+    }
   }
 
   fullscreenBtn.addEventListener("click", toggleFullscreen);

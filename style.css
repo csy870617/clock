@@ -76,6 +76,12 @@ body {
   display: none !important;
 }
 
+/* 전체화면에서 일정 시간 후 마우스 포인터 숨김 */
+.cursor-hidden,
+.cursor-hidden * {
+  cursor: none !important;
+}
+
 .date {
   margin: 1.2rem 0 0;
   font-size: calc(clamp(0.9rem, 3vw, 1.6rem) * var(--clock-scale));
