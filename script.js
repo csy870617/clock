@@ -231,15 +231,36 @@
 
   // ---- 전체화면 ----
   function isFullscreen() {
-    return document.fullscreenElement || document.webkitFullscreenElement;
+    return (
+      document.fullscreenElement ||
+      document.webkitFullscreenElement ||
+      document.mozFullScreenElement ||
+      document.msFullscreenElement
+    );
   }
 
   function toggleFullscreen() {
+    // 메서드 존재를 먼저 확인해 미지원 브라우저에서 예외(TypeError)로 죽지 않도록 함
     if (!isFullscreen()) {
       const el = document.documentElement;
-      (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+      const request =
+        el.requestFullscreen ||
+        el.webkitRequestFullscreen ||
+        el.mozRequestFullScreen ||
+        el.msRequestFullscreen;
+      if (!request) return;
+      // requestFullscreen은 Promise를 반환할 수 있고 거부될 수 있어 조용히 무시
+      const p = request.call(el);
+      if (p && typeof p.catch === "function") p.catch(function () {});
     } else {
-      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      const exit =
+        document.exitFullscreen ||
+        document.webkitExitFullscreen ||
+        document.mozCancelFullScreen ||
+        document.msExitFullscreen;
+      if (!exit) return;
+      const p = exit.call(document);
+      if (p && typeof p.catch === "function") p.catch(function () {});
     }
   }
 
@@ -292,10 +313,19 @@
   fullscreenBtn.addEventListener("click", toggleFullscreen);
   document.addEventListener("fullscreenchange", onFullscreenChange);
   document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+  document.addEventListener("mozfullscreenchange", onFullscreenChange);
+  document.addEventListener("MSFullscreenChange", onFullscreenChange);
 
   // F 키로 전체화면 토글
   document.addEventListener("keydown", function (e) {
-    if ((e.key === "f" || e.key === "F") && !e.metaKey && !e.ctrlKey) {
+    // 키 자동반복(누르고 있을 때) 시 토글이 반복되지 않도록 무시
+    if (e.repeat) return;
+    if (
+      (e.key === "f" || e.key === "F") &&
+      !e.metaKey &&
+      !e.ctrlKey &&
+      !e.altKey
+    ) {
       toggleFullscreen();
     }
   });
